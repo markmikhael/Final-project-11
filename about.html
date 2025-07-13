@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - MarkEx</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .fixed-size-img {
+            width: 100%;
+            height: 550px;
+            object-fit: cover;
+            border: 2px solid #555; /* Slightly thicker border for featured pieces */
+        }
+        
+        .fixed-size-img:hover {
+            border-color: #eee; /* Lighter border on hover */
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3); /* More pronounced shadow on hover */
+        }
+
+        .main-content h2 {
+            color: #ffffff; /* Ensure heading stands out */
+            text-shadow: 1px 1px 5px rgba(0,0,0,0.5); /* Subtle shadow for headings */
+        }
+
+        .col-md-4 {
+            padding: 15px; /* Add some padding around images for spacing */
+            background-color: #1a1a1a; /* Slightly different background for image containers */
+            border: 1px solid #222; /* Border for the container */
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg brutalist-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">MarkEx</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sale.html">Pieces</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="sale.html#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="signOutLink">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <section id="about" class="main-content container my-5">
+                    <h2 class="text-center mb-5">ABOUT MARKEX</h2>
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            <img src="https://dancelogo.com/uploads/686f867ac9e09-1752139386/temp.png?random=0.8881753380431575" class="img-fluid" alt="MarkEx Studio">
+                        </div>
+                        <div class="col-md-6">
+                            <p class="lead mt-4 mt-md-0">
+                                MarkEx,a digital artisan dedicated to exploring the raw, unfiltered essence of design. Our philosophy is rooted in brutalism, celebrating stark forms, unadorned materials, and a powerful, uncompromising aesthetic. We believe in design that speaks for itself, without pretense or unnecessary embellishment.
+                            </p>
+                            <p class="lead">
+                                Every piece is a statement, a deliberate act of creation that challenges conventional beauty standards. We strip away the superfluous to reveal the core, focusing on structure, texture, and the inherent power of simplicity. Our work is not just seen; it's experienced.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="gallery" class="main-content container my-5">
+                    <h2 class="text-center mb-5">FEATURED PIECES</h2>
+                    <div class="row g-5">
+                        <div class="col-md-4">
+                            <a href="sale.html">
+                                <img src="https://media.showstudio.com/images/220121rickowens_aw22gif.width-1200_1GxS5dY33C9GzUJS.gif" class="img-fluid fixed-size-img" alt="Look 1">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="sale.html">
+                                <img src="https://64.media.tumblr.com/7b141e83e5d0ec3d741c8ca5668f3702/tumblr_mo3j91yNvx1s9pk0no1_400.gif" class="img-fluid fixed-size-img" alt="Look 2">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="sale.html">
+                                <img src="https://media.showstudio.com/images/SS23-LIVE-REVIEW-THUMBNAIL_rick.width-2400_WvrXU07OfLyCWiFQ.gif" class="img-fluid fixed-size-img" alt="Look 3">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="sale.html">
+                                <img src="https://media.tenor.com/pOempNQsFLUAAAAM/rickowens-johnreuss.gif" class="img-fluid fixed-size-img" alt="Look 4">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="sale.html">
+                                <img src="https://designandculturebyed.com/wp-content/uploads/2021/10/rick-owens-ss22.gif" class="img-fluid fixed-size-img" alt="Look 5">
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="sale.html">
+                                <img src="https://freight.cargo.site/t/original/i/d3a5d9c63135abd4b9420e8c3870fa7246aa79931e252b8f24cd0d5911e5244f/image11.gif" class="img-fluid fixed-size-img" alt="Look 6">
+                            </a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('signOutLink').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            localStorage.removeItem('userToken'); // Example: Clear a user token from local storage
+            sessionStorage.removeItem('userData'); // Example: Clear user data from session storage
+            console.log('User signed out.'); // Log to console for demonstration
+            window.location.href = 'login.html';
+        });
+    </script>
+</body>
+</html>

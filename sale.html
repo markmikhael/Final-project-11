@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop - Mark Andrei</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* General item styling */
+        .item-img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 1px solid #444; /* Standard border from style.css */
+        }
+        
+        /* Override img:hover for specific item images */
+        .item-img:hover {
+            transform: scale(1.02); /* Slightly less aggressive scale for shop items */
+            filter: grayscale(10%) contrast(1.3) brightness(0.9); /* Different hover filter */
+            border-color: #777; /* Greyer border on hover */
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Lighter shadow */
+        }
+
+        .item-details {
+            text-align: center;
+            color: #ffffff; /* Changed to white for better visibility on dark background */
+            margin-bottom: 20px;
+            padding: 10px 0;
+            background-color: #0a0a0a; /* Darker background for details block */
+            border-top: 1px solid #333; /* Separator line */
+        }
+        .item-details .item-title {
+            font-size: 1.15rem; /* Slightly smaller title */
+            font-weight: bold;
+            margin-bottom: 5px;
+            letter-spacing: 0.1rem; /* Add letter spacing */
+        }
+        .item-details .item-price {
+            font-size: 1rem;
+            color: #ffffff; /* Changed to white */
+            font-weight: 500;
+        }
+
+        /* Contact section styling */
+        #contact .list-unstyled strong {
+            color: #ffffff; /* Ensure strong text in contact is white */
+        }
+
+        #contact a {
+            color: #ffffff; /* Make links white in contact section */
+            text-decoration: underline; /* Underline links for clarity */
+        }
+        #contact a:hover {
+            color: #ccc; /* Slightly lighter on hover */
+        }
+
+        #contact .form-label {
+            color: #ffffff; /* Labels in contact form */
+        }
+
+        #contact .form-control {
+            background-color: #0a0a0a;
+            border: 1px solid #333;
+            color: #ffffff;
+        }
+        #contact .form-control:focus {
+            border-color: #555;
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+        }
+        #contact .btn-primary {
+            background-color: #333;
+            border-color: #555;
+        }
+        #contact .btn-primary:hover {
+            background-color: #555;
+            border-color: #fff;
+        }
+
+        /* Custom styles for the shopping cart modal */
+        .cart-modal-content {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 2px solid #444;
+            border-radius: 0; /* Brutalist style */
+        }
+
+        .cart-modal-header {
+            border-bottom: 1px solid #333;
+        }
+
+        .cart-modal-footer {
+            border-top: 1px solid #333;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #222;
+        }
+
+        .cart-item:last-child {
+            border-bottom: none;
+        }
+
+        .cart-item-info {
+            flex-grow: 1;
+        }
+
+        .cart-item-quantity {
+            margin: 0 15px;
+        }
+
+        .cart-total {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .btn-add-to-cart, .btn-remove-item, .btn-checkout, .btn-view-details {
+            border-radius: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.05rem;
+            font-weight: bold;
+        }
+
+        .btn-add-to-cart {
+            background-color: #444;
+            border-color: #666;
+            color: #fff;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-add-to-cart:hover {
+            background-color: #666;
+            border-color: #888;
+        }
+
+        .btn-view-details {
+            background-color: #222; /* Darker background for view details */
+            border-color: #444;
+            color: #fff;
+            width: 100%;
+            margin-top: 5px; /* Less margin than add to cart */
+        }
+        .btn-view-details:hover {
+            background-color: #444;
+            border-color: #666;
+        }
+
+        .btn-remove-item {
+            background-color: #880000;
+            border-color: #aa0000;
+            color: #fff;
+            padding: 5px 10px;
+            font-size: 0.8rem;
+        }
+        .btn-remove-item:hover {
+            background-color: #aa0000;
+            border-color: #cc0000;
+        }
+
+        .btn-checkout {
+            background-color: #008800;
+            border-color: #00aa00;
+            color: #fff;
+        }
+        .btn-checkout:hover {
+            background-color: #00aa00;
+            border-color: #00cc00;
+        }
+
+        /* Custom message box for alerts */
+        .custom-message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            border: 2px solid #555;
+            z-index: 1050;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            display: none; /* Hidden by default */
+            text-align: center;
+            min-width: 250px;
+            border-radius: 0;
+        }
+        .custom-message-box .close-btn {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 5px 10px;
+            margin-top: 15px;
+            cursor: pointer;
+            border-radius: 0;
+        }
+        .custom-message-box .close-btn:hover {
+            background-color: #fff;
+            color: #333;
+        }
+
+        /* Item Detail Modal Specific Styles */
+        .item-detail-modal-content {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            border: 2px solid #444;
+            border-radius: 0;
+        }
+        .item-detail-modal-header {
+            border-bottom: 1px solid #333;
+        }
+        .item-detail-modal-body {
+            padding: 20px;
+        }
+        .item-detail-modal-body img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            margin-bottom: 20px;
+            border: 1px solid #555;
+            filter: grayscale(0%) contrast(1) brightness(1); /* No grayscale for detail view */
+        }
+        .item-detail-modal-body h5 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 0.1rem;
+            margin-bottom: 10px;
+        }
+        .item-detail-modal-body p {
+            font-size: 1.1rem;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        .item-detail-modal-body .price {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg brutalist-navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="index.html">MarkEx</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#shop-items">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="cartIconLink">Cart (<span id="cartItemCount">0</span>)</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="signOutLink">Sign Out</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <section id="shop-items" class="main-content container my-5">
+                    <h2 class="text-center mb-5">ITEMS FOR SALE</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4 col-sm-6">
+                            <img src="https://cdn.rickowens.eu/products/167898/large/DM02B3801_08_01.jpg?1706690311" class="item-img" alt="MarkEx Boots (Black)">
+                            <div class="item-details">
+                                <h4 class="item-title">MarkEx Boots (Black)</h4>
+                                <p class="item-price">$150.00</p>
+                                <button class="btn btn-add-to-cart" data-item-id="1" data-item-name="MarkEx Boots (Black)" data-item-price="150.00">Add to Cart</button>
+                                <button class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#itemDetailModal" 
+                                    data-item-id="1" 
+                                    data-item-name="MarkEx Boots (Black)" 
+                                    data-item-price="150.00" 
+                                    data-item-img="https://cdn.rickowens.eu/products/167898/large/DM02B3801_08_01.jpg?1706690311"
+                                    data-item-description="Classic MarkEx black boots, made from durable material with a minimalist design. Perfect for any brutalist ensemble.">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <img src="https://cdn.rickowens.eu/products/168729/large/DM01D78105001_09_01.jpg?1707727351" class="item-img" alt="MarkEx Boots (Grey)">
+                            <div class="item-details">
+                                <h4 class="item-title">MarkEx Boots (Grey)</h4>
+                                <p class="item-price">$120.00</p>
+                                <button class="btn btn-add-to-cart" data-item-id="2" data-item-name="MarkEx Boots (Grey)" data-item-price="120.00">Add to Cart</button>
+                                <button class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#itemDetailModal"
+                                    data-item-id="2"
+                                    data-item-name="MarkEx Boots (Grey)"
+                                    data-item-price="120.00"
+                                    data-item-img="https://cdn.rickowens.eu/products/168729/large/DM01D78105001_09_01.jpg?1707727351"
+                                    data-item-description="Stylish grey MarkEx boots, offering comfort and a distinctive brutalist aesthetic. Ideal for everyday wear.">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <img src="https://cdn.rickowens.eu/products/167906/large/DM02B3801_09_01.jpg?1706690535" class="item-img" alt="MarkEx Boots (Leather)">
+                            <div class="item-details">
+                                <h4 class="item-title">MarkEx Boots (Leather)</h4>
+                                <p class="item-price">$280.00</p>
+                                <button class="btn btn-add-to-cart" data-item-id="3" data-item-name="MarkEx Boots (Leather)" data-item-price="280.00">Add to Cart</button>
+                                <button class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#itemDetailModal"
+                                    data-item-id="3"
+                                    data-item-name="MarkEx Boots (Leather)"
+                                    data-item-price="280.00"
+                                    data-item-img="https://cdn.rickowens.eu/products/167906/large/DM02B3801_09_01.jpg?1706690535"
+                                    data-item-description="Premium MarkEx leather boots, crafted for durability and a sophisticated, rugged look. A timeless piece.">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <img src="https://cdn.rickowens.eu/products/191518/large/DU01E3378_PF_09_01.jpg?1739193365" class="item-img" alt="DRKSD Hoodie (Black)">
+                            <div class="item-details">
+                                <h4 class="item-title">DRKSD Hoodie (Black)</h4>
+                                <p class="item-price">$60.00</p>
+                                <button class="btn btn-add-to-cart" data-item-id="4" data-item-name="DRKSD Hoodie (Black)" data-item-price="60.00">Add to Cart</button>
+                                <button class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#itemDetailModal"
+                                    data-item-id="4"
+                                    data-item-name="DRKSD Hoodie (Black)"
+                                    data-item-price="60.00"
+                                    data-item-img="https://cdn.rickowens.eu/products/191518/large/DU01E3378_PF_09_01.jpg?1739193365"
+                                    data-item-description="Comfortable and stylish DRKSD black hoodie, perfect for a casual yet bold statement. Made from soft, heavy-duty cotton.">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <img src="https://cdn.rickowens.eu/products/190265/large/DU01E3378_PF_78_01.jpg?1737112862" class="item-img" alt="DRKSD Hoodie (White)">
+                            <div class="item-details">
+                                <h4 class="item-title">DRKSD Hoodie (White)</h4>
+                                <p class="item-price">$190.00</p>
+                                <button class="btn btn-add-to-cart" data-item-id="5" data-item-name="DRKSD Hoodie (White)" data-item-price="190.00">Add to Cart</button>
+                                <button class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#itemDetailModal"
+                                    data-item-id="5"
+                                    data-item-name="DRKSD Hoodie (White)"
+                                    data-item-price="190.00"
+                                    data-item-img="https://cdn.rickowens.eu/products/190265/large/DU01E3378_PF_78_01.jpg?1737112862"
+                                    data-item-description="Crisp white DRKSD hoodie, a versatile piece that combines comfort with an edgy, minimalist design.">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-6">
+                            <img src="https://cdn.rickowens.eu/products/190272/large/DU01E3375_DCF_09_01.jpg?1737115291" class="item-img" alt="DRKSD Jacket">
+                            <div class="item-details">
+                                <h4 class="item-title">DRKSD Jacket</h4>
+                                <p class="item-price">$300.00</p>
+                                <button class="btn btn-add-to-cart" data-item-id="6" data-item-name="DRKSD Jacket" data-item-price="300.00">Add to Cart</button>
+                                <button class="btn btn-view-details" data-bs-toggle="modal" data-bs-target="#itemDetailModal"
+                                    data-item-id="6"
+                                    data-item-name="DRKSD Jacket"
+                                    data-item-price="300.00"
+                                    data-item-img="https://cdn.rickowens.eu/products/190272/large/DU01E3375_DCF_09_01.jpg?1737115291"
+                                    data-item-description="The iconic DRKSD jacket, featuring a distinctive cut and robust construction. A true statement of brutalist fashion.">
+                                    View Details
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section id="contact" class="main-content container my-5">
+                    <h2 class="text-center mb-5">CONTACT MarkEx</h2>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8">
+                            <p class="text-center lead">For inquiries, collaborations, or custom orders, please reach out:</p>
+                            <ul class="list-unstyled text-center social-links">
+                                <li><strong>Email:</strong> <a href="mailto:MarkEx@gmail.com">MarkEx_DRSKD</a></li>
+                                <li><strong>Instagram:</strong> <a href="https://www.instagram.com/MarkEx_DRSKD" target="_blank">@MarkEx_DRSKD</a></li>
+                                <li><strong>Phone:</strong> +639999xx</li>
+                            </ul>
+                            <p class="text-center mt-4">You can also fill out the form below:</p>
+                            <form>
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="shoppingCartModal" tabindex="-1" aria-labelledby="shoppingCartModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content cart-modal-content">
+                <div class="modal-header cart-modal-header">
+                    <h5 class="modal-title" id="shoppingCartModalLabel">Your Shopping Cart</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="cartItemsContainer">
+                        </div>
+                    <div class="cart-total text-end">
+                        Total: $<span id="cartTotal">0.00</span>
+                    </div>
+                </div>
+                <div class="modal-footer cart-modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Continue Shopping</button>
+                    <button type="button" class="btn btn-checkout">Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="itemDetailModal" tabindex="-1" aria-labelledby="itemDetailModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content item-detail-modal-content">
+                <div class="modal-header item-detail-modal-header">
+                    <h5 class="modal-title" id="itemDetailModalLabel">Product Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);"></button>
+                </div>
+                <div class="modal-body item-detail-modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <img id="detailItemImage" src="" alt="Product Image">
+                        </div>
+                        <div class="col-md-6">
+                            <h5 id="detailItemName"></h5>
+                            <p id="detailItemDescription"></p>
+                            <p class="price">Price: $<span id="detailItemPrice"></span></p>
+                            <button class="btn btn-add-to-cart w-100" id="detailAddToCartBtn">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="customMessageBox" class="custom-message-box">
+        <p id="messageText"></p>
+        <button class="close-btn" onclick="document.getElementById('customMessageBox').style.display='none';">OK</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Function to show custom message box
+        function showMessage(message, type = 'info') {
+            const messageBox = document.getElementById('customMessageBox');
+            const messageText = document.getElementById('messageText');
+            messageText.textContent = message;
+            messageBox.style.display = 'block';
+            // Optional: add styling based on type (e.g., success, error)
+            if (type === 'success') {
+                messageBox.style.borderColor = '#00aa00';
+            } else if (type === 'error') {
+                messageBox.style.borderColor = '#aa0000';
+            } else {
+                messageBox.style.borderColor = '#555';
+            }
+        }
+
+        // Initialize cart from localStorage or as an empty object
+        let cart = JSON.parse(localStorage.getItem('shoppingCart')) || {};
+
+        const cartItemsContainer = document.getElementById('cartItemsContainer');
+        const cartTotalSpan = document.getElementById('cartTotal');
+        const cartItemCountSpan = document.getElementById('cartItemCount');
+        const shoppingCartModal = new bootstrap.Modal(document.getElementById('shoppingCartModal'));
+        const itemDetailModal = new bootstrap.Modal(document.getElementById('itemDetailModal'));
+
+
+        // Function to render cart items
+        function renderCart() {
+            cartItemsContainer.innerHTML = ''; // Clear current items
+            let total = 0;
+            let itemCount = 0;
+
+            if (Object.keys(cart).length === 0) {
+                cartItemsContainer.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+            } else {
+                for (const itemId in cart) {
+                    const item = cart[itemId];
+                    const itemElement = document.createElement('div');
+                    itemElement.classList.add('cart-item');
+                    itemElement.innerHTML = `
+                        <div class="cart-item-info">
+                            <strong>${item.name}</strong><br>
+                            $${item.price.toFixed(2)} x <span class="cart-item-quantity">${item.quantity}</span>
+                        </div>
+                        <button class="btn btn-remove-item" data-item-id="${itemId}">Remove</button>
+                    `;
+                    cartItemsContainer.appendChild(itemElement);
+                    total += item.price * item.quantity;
+                    itemCount += item.quantity;
+                }
+            }
+            cartTotalSpan.textContent = total.toFixed(2);
+            cartItemCountSpan.textContent = itemCount;
+        }
+
+        // Function to add item to cart
+        function addToCart(itemId, itemName, itemPrice) {
+            if (cart[itemId]) {
+                cart[itemId].quantity++;
+            } else {
+                cart[itemId] = {
+                    id: itemId,
+                    name: itemName,
+                    price: parseFloat(itemPrice),
+                    quantity: 1
+                };
+            }
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+            renderCart();
+            showMessage(`${itemName} added to cart!`, 'success');
+        }
+
+        // Function to remove item from cart
+        function removeFromCart(itemId) {
+            if (cart[itemId]) {
+                cart[itemId].quantity--;
+                if (cart[itemId].quantity <= 0) {
+                    delete cart[itemId];
+                }
+            }
+            localStorage.setItem('shoppingCart', JSON.stringify(cart));
+            renderCart();
+        }
+
+        // Event listener for "Add to Cart" buttons
+        document.querySelectorAll('.btn-add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.dataset.itemId;
+                const itemName = this.dataset.itemName;
+                const itemPrice = this.dataset.itemPrice;
+                addToCart(itemId, itemName, itemPrice);
+            });
+        });
+
+        // Event listener for "View Details" buttons
+        document.querySelectorAll('.btn-view-details').forEach(button => {
+            button.addEventListener('click', function() {
+                const itemId = this.dataset.itemId;
+                const itemName = this.dataset.itemName;
+                const itemPrice = this.dataset.itemPrice;
+                const itemImg = this.dataset.itemImg;
+                const itemDescription = this.dataset.itemDescription;
+
+                document.getElementById('detailItemImage').src = itemImg;
+                document.getElementById('detailItemName').textContent = itemName;
+                document.getElementById('detailItemDescription').textContent = itemDescription;
+                document.getElementById('detailItemPrice').textContent = parseFloat(itemPrice).toFixed(2);
+                
+                // Set data attributes for the "Add to Cart" button inside the detail modal
+                const detailAddToCartBtn = document.getElementById('detailAddToCartBtn');
+                detailAddToCartBtn.dataset.itemId = itemId;
+                detailAddToCartBtn.dataset.itemName = itemName;
+                detailAddToCartBtn.dataset.itemPrice = itemPrice;
+
+                itemDetailModal.show();
+            });
+        });
+
+        // Event listener for "Add to Cart" button inside the detail modal
+        document.getElementById('detailAddToCartBtn').addEventListener('click', function() {
+            const itemId = this.dataset.itemId;
+            const itemName = this.dataset.itemName;
+            const itemPrice = this.dataset.itemPrice;
+            addToCart(itemId, itemName, itemPrice);
+            itemDetailModal.hide(); // Optionally hide the detail modal after adding to cart
+        });
+
+        // Event listener for "Remove" buttons in the cart (using event delegation)
+        cartItemsContainer.addEventListener('click', function(event) {
+            if (event.target.classList.contains('btn-remove-item')) {
+                const itemId = event.target.dataset.itemId;
+                removeFromCart(itemId);
+            }
+        });
+
+        // Event listener for cart icon/link to open modal
+        document.getElementById('cartIconLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            shoppingCartModal.show();
+        });
+
+        // Event listener for Checkout button
+        document.querySelector('.btn-checkout').addEventListener('click', function() {
+            if (Object.keys(cart).length === 0) {
+                showMessage('Your cart is empty. Please add items before checking out.', 'info');
+            } else {
+                showMessage('Proceeding to checkout! (This is a placeholder)', 'success');
+                // In a real application, you would navigate to a checkout page
+                // or initiate a payment process here.
+            }
+        });
+
+        // Sign out link functionality (modified to use custom message box)
+        document.getElementById('signOutLink').addEventListener('click', function(event) {
+            event.preventDefault();
+            localStorage.removeItem('userToken');
+            sessionStorage.removeItem('userData');
+            localStorage.removeItem('shoppingCart'); // Clear cart on sign out
+            showMessage('You have been signed out.', 'info');
+            setTimeout(() => {
+                window.location.href = 'login.html';
+            }, 1500); // Redirect after a short delay
+        });
+
+        // Initial render of the cart when the page loads
+        renderCart();
+    </script>
+</body>
+</html>
